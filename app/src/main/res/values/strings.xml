@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Fishes</string>
+    <string name="title">大鱼吃小鱼</string>
+    <string name="start">开始</string>
+    <string name="exit">退出</string>
+    <string name="boost">加速</string>
+    <string name="Exit">E</string>
+</resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.example.fishes.view.GameSurface
+        android:id="@+id/game_surface"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.example.fishes.view.JoystickView
+        android:id="@+id/joystick"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp" />
+
+    <Button
+        android:id="@+id/btn_boost"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:text="@string/boost" />
+
+    <Button
+        android:id="@+id/btn_quit"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:text="@string/Exit"/>
+
+
+</RelativeLayout>
