@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.example.fishes.view.GameSurface
@@ -8,22 +8,34 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.example.fishes.view.JoystickView
-        android:id="@+id/joystick"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="16dp" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btn_boost"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"
-        android:text="@string/boost" />
+        <!-- Joystick View -->
+        <com.example.fishes.view.JoystickView
+                android:id="@+id/joystick"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintWidth_percent="0.2"
+                app:layout_constraintHeight_percent="0.35"
+                android:layout_margin="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" android:scaleX="1.25" android:scaleY="1.25"/>
+        <Button
+                android:id="@+id/btn_boost"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintWidth_percent="0.15"
+                app:layout_constraintHeight_percent="0.2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_margin="16dp"
+                android:text="@string/boost" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
 
     <Button
         android:id="@+id/btn_quit"

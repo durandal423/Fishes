@@ -34,7 +34,7 @@ public class JoystickView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         centerX = w / 2f;
         centerY = h / 2f;
-        baseRadius = (int) (Math.min(w, h) / 2f * 0.9); // 基座半径
+        baseRadius = (int) (Math.min(w, h) / 2f * 0.6); // 基座半径
         hatRadius = (int) (baseRadius * 0.5);         // 摇杆半径
         // 初始摇杆位置在中心
         hatX = centerX;
