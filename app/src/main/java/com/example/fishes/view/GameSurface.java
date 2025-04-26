@@ -23,11 +23,13 @@ import java.util.Objects;
 public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
     public static int SCREEN_WIDTH;
     public static int SCREEN_HEIGHT;
-
+    private static final int[] LEVEL_EXP = {0, 100, 200, 400, 800, 1600, 3200, 6400, 12800, 25600, 51200, 102400};
+    private int playerLevel = 0;
     private GameThread gameThread;
     private JoystickView joystickView;
     private PlayerFish player;
     private List<EnemyFish> enemies;
+    private int LimitOfEnemies = 30;
     private int score = 0;
     private long lastSpawnTime = 0;
     private SoundManager soundManager;
@@ -67,24 +69,18 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceDestroyed(@NonNull SurfaceHolder surfaceHolder) {
-        boolean retry = true;
-        gameThread.setRunning(false);
-        while (retry) {
-            try {
-                gameThread.join();
-                retry = false;
-            } catch (InterruptedException e) {
-                // 重试直到线程退出
-            }
-        }
+        pause();
     }
 
     public void pause() {
-        gameThread.setRunning(false);
-        try {
-            gameThread.join();
-        } catch (InterruptedException e) {
-            Log.e("GameSurface.pause", Objects.requireNonNull(e.getMessage()));
+        if (gameThread != null) {
+            gameThread.setRunning(false);
+            try {
+                gameThread.join(); // 等待线程完全退出
+            } catch (InterruptedException e) {
+                Log.e("GameSurface.stop", Objects.requireNonNull(e.getMessage()));
+            }
+            gameThread = null;
         }
     }
 
@@ -97,21 +93,23 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void update() {
-        player.update();
-        Iterator<EnemyFish> iterator = enemies.iterator();
-        while (iterator.hasNext()) {
-            EnemyFish enemy = iterator.next();
-            enemy.update();
-            if (enemy.isOutOfScreen()) {
-                iterator.remove(); // 直接删除
+        synchronized (enemies) {
+            player.update();
+            Iterator<EnemyFish> iterator = enemies.iterator();
+            while (iterator.hasNext()) {
+                EnemyFish enemy = iterator.next();
+                enemy.update();
+                if (enemy.isOutOfScreen()) {
+                    iterator.remove();
+                }
+            }
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - lastSpawnTime > 500 && enemies.size() < LimitOfEnemies) {
+                spawnEnemy();
+                lastSpawnTime = currentTime;
             }
         }
         checkCollisions();
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - lastSpawnTime > 5000) {
-            spawnEnemy();
-            lastSpawnTime = currentTime;
-        }
     }
 
     @Override
@@ -123,19 +121,17 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
 
             // 绘制玩家和敌人
             player.draw(canvas);
-            for (EnemyFish enemy : enemies) {
-                enemy.draw(canvas);
+            synchronized (enemies) {
+                for (EnemyFish enemy : enemies) {
+                    enemy.draw(canvas);
+                }
             }
-
         }
     }
 
     private void spawnEnemy() {
-        // 根据分数调整敌鱼速度或大小
         int enemyResId = R.drawable.enemy_small;
-        float speed = 5 + score * 0.1f; // 随分数增加速度
-        // 随机位置和方向
-        EnemyFish enemy = new EnemyFish(getContext(), enemyResId, speed);
+        EnemyFish enemy = new EnemyFish(getContext(), EnemyFish.EnemyFishType.SMALL_FISH, enemyResId);
         enemies.add(enemy);
     }
 
@@ -146,8 +142,15 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
                 if (player.isLargerThan(enemy)) {
                     // 玩家吃掉敌鱼
                     enemies.remove(i);
-                    score += 10;
+                    score += enemy.getEnemyFishType().experience;
                     soundManager.playEatSound();
+
+                    int newLevel = getLevel(score);
+                    if (newLevel > playerLevel) {
+                        playerLevel = newLevel;
+                        player.grow(1.1f);
+                        soundManager.playLevelUpSound();
+                    }
                 } else {
                     // 撞到更大的敌鱼，游戏结束
                     soundManager.playCrashSound();
@@ -156,6 +159,15 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
                 }
             }
         }
+    }
+
+    private static int getLevel(int score) {
+        for (int i = LEVEL_EXP.length - 1; i >= 0; --i) {
+            if (score >= LEVEL_EXP[i]) {
+                return i;
+            }
+        }
+        return 0;
     }
 
     public void setJoystick(JoystickView joystickView) {
@@ -187,7 +199,7 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
 
     private static class GameThread extends Thread {
         private final SurfaceHolder surfaceHolder;
-        private GameSurface gameSurface;
+        private final GameSurface gameSurface;
         private boolean running = false;
         private final int TARGET_FPS = 60;
         private final long FRAME_TIME = 1000 / TARGET_FPS;

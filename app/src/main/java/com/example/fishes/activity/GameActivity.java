@@ -54,6 +54,7 @@ public class GameActivity extends AppCompatActivity {
             int score = gameSurface.getScore(); // 获取当前分数
             // 停止背景音乐
             soundManager.stopBackgroundMusic();
+            gameSurface.pause();
             // 跳转到游戏结束界面，传递分数
             Intent intent = new Intent(GameActivity.this, GameOverActivity.class);
             intent.putExtra("score", score);

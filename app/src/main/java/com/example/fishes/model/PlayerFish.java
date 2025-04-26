@@ -17,14 +17,21 @@ public class PlayerFish extends Fish {
 
 
     public PlayerFish(Context context, int resId) {
-        super(context, resId,
+        super(context,0.2f, resId,
                 (float) context.getResources().getDisplayMetrics().widthPixels / 2,
-                (float) context.getResources().getDisplayMetrics().heightPixels / 2,
-                5); // 初始化速度5
+                (float) context.getResources().getDisplayMetrics().heightPixels / 2);
     }
 
     public void setAccelerating(boolean accelerating) {
         this.accelerating = accelerating;
+    }
+
+    public void grow(float factor) {
+        scaling *= factor;
+        int newWidth = (int) (bitmap.getWidth() * factor);
+        int newHeight = (int) (bitmap.getHeight() * factor);
+        bitmap = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true);
+        radius = newWidth / 2;
     }
 
     @Override

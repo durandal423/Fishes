@@ -9,7 +9,7 @@ import com.example.fishes.R;
 
 public class SoundManager {
     private SoundPool soundPool;
-    private int soundEatId, soundCrashId;
+    private int soundEatId, soundCrashId, soundLevelUp;
     private MediaPlayer bgmPlayer;
 
     public SoundManager(Context context) {
@@ -23,6 +23,7 @@ public class SoundManager {
                 .build();
         soundEatId = soundPool.load(context, R.raw.eat_sound, 1);
         soundCrashId = soundPool.load(context, R.raw.crash_sound, 1);
+        soundLevelUp = soundPool.load(context, R.raw.levle_up, 1);
         // 初始化背景音乐 MediaPlayer
         bgmPlayer = MediaPlayer.create(context, R.raw.background_music);
         bgmPlayer.setLooping(true);
@@ -34,6 +35,11 @@ public class SoundManager {
 
     public void playCrashSound() {
         soundPool.play(soundCrashId, 1f, 1f, 1, 0, 1f);
+    }
+
+
+    public void playLevelUpSound() {
+        soundPool.play(soundLevelUp, 1f, 1f, 1, 0, 1f);
     }
 
     public void startBackgroundMusic() {
