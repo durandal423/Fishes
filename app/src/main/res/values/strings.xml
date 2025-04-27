@@ -5,4 +5,9 @@
     <string name="exit">退出</string>
     <string name="boost">加速</string>
     <string name="Exit">E</string>
+    <string name="leaderboard">排行榜</string>
+    <string name="player_name">玩家名</string>
+    <string name="score">分数</string>
+    <string name="submit">提交</string>
+    <string name="enter_name">请输入你的名字</string>
 </resources>

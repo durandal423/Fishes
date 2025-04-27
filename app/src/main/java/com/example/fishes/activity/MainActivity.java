@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button btnStart = findViewById(R.id.btn_start);
         Button btnExit = findViewById(R.id.btn_exit);
+        Button btnLeaderboard = findViewById(R.id.btn_leaderboard);
 
         btnStart.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, GameActivity.class);
@@ -24,5 +25,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btnExit.setOnClickListener(v -> finish());
+
+        btnLeaderboard.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, LeaderboardActivity.class);
+            startActivity(intent);
+        });
     }
 }

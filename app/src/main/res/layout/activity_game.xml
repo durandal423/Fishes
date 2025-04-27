@@ -40,7 +40,13 @@
         android:id="@+id/btn_quit"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:text="@string/Exit"/>
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/Exit"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:background="@drawable/btn_quit_background"/>
 
 
 </RelativeLayout>
