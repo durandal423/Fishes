@@ -7,8 +7,8 @@ import com.example.fishes.view.GameSurface;
 
 public class EnemyFish extends Fish {
     private final EnemyFishType enemyFishType;
-    public EnemyFish(Context context, EnemyFishType enemyFishType, int resId) {
-        super(context, enemyFishType.scaling, resId,
+    public EnemyFish(Context context, EnemyFishType enemyFishType) {
+        super(context, enemyFishType.scaling, enemyFishType.resId,
                 (Math.random() < 0.5) ? 0 : GameSurface.SCREEN_WIDTH,
                 (float) (Math.random() * context.getResources().getDisplayMetrics().heightPixels));
         this.enemyFishType = enemyFishType;

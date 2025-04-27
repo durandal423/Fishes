@@ -38,24 +38,22 @@ public class PlayerFish extends Fish {
     public void update() {
         float angle = joystick.getAngle();
         float strength = joystick.getStrength();
-        float speed = accelerating ? 10f : 5f;
+        float speed = accelerating ? 100f : 5f;
         vx = (float) (Math.cos(angle) * strength * speed);
         vy = (float) (Math.sin(angle) * strength * speed);
+
+        super.update();
+
         if (x < radius) {
             x = radius;  // 把位置修正到边界
-            vx = 0;
         } else if (x > GameSurface.SCREEN_WIDTH - radius) {
             x = GameSurface.SCREEN_WIDTH - radius;
-            vx = 0;
         }
 
         if (y < radius) {
             y = radius;
-            vy = 0;
         } else if (y > GameSurface.SCREEN_HEIGHT - radius) {
             y = GameSurface.SCREEN_HEIGHT - radius;
-            vy = 0;
         }
-        super.update();
     }
 }
