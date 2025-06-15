@@ -14,17 +14,19 @@ public class Fish {
     protected float vx, vy;
     protected float scaling;
     protected int radius;
-    protected Bitmap bitmap;
+    protected Bitmap bitmap_l, bitmap_r;
     protected Context context;
 
-    public Fish(Context context, float scaling, int resId, float initX, float initY) {
+    public Fish(Context context, float scaling, int resId, int resId2, float initX, float initY) {
         this.context = context;
         this.scaling = scaling;
-        bitmap = BitmapFactory.decodeResource(context.getResources(), resId);
+        bitmap_l = BitmapFactory.decodeResource(context.getResources(), resId);
+        bitmap_r = BitmapFactory.decodeResource(context.getResources(), resId2);
 
-        int scaledWidth = (int) (bitmap.getWidth() * scaling);
-        int scaledHeight = (int) (bitmap.getHeight() * scaling);
-        bitmap = Bitmap.createScaledBitmap(bitmap, scaledWidth, scaledHeight, true);
+        int scaledWidth = (int) (bitmap_l.getWidth() * scaling);
+        int scaledHeight = (int) (bitmap_l.getHeight() * scaling);
+        bitmap_l = Bitmap.createScaledBitmap(bitmap_l, scaledWidth, scaledHeight, true);
+        bitmap_r = Bitmap.createScaledBitmap(bitmap_r, scaledWidth, scaledHeight, true);
 
         this.radius = scaledWidth / 2;
         this.x = initX;
@@ -32,6 +34,10 @@ public class Fish {
         // 随机或预设速度方向，默认向右
         this.vx = 0;
         this.vy = 0;
+    }
+
+    public void setScaling(float scaling) {
+        this.scaling = scaling;
     }
 
     public void draw(Canvas canvas) {
@@ -42,11 +48,10 @@ public class Fish {
         }
 
         if (facingLeft) {
-            canvas.drawBitmap(bitmap, x - radius, y - radius, null);
+            canvas.drawBitmap(bitmap_l, x - radius, y - radius, null);
         } else {
             canvas.save();
-            canvas.scale(-1, 1, x, y);  // 水平翻转
-            canvas.drawBitmap(bitmap, x - radius, y - radius, null);
+            canvas.drawBitmap(bitmap_r, x - radius, y - radius, null);
             canvas.restore();
         }
     }
@@ -66,7 +71,7 @@ public class Fish {
     }
 
     public boolean isLargerThan(Fish other) {
-        return this.radius > other.radius;
+        return this.radius >= other.radius;
     }
 
     public boolean isOutOfScreen() {

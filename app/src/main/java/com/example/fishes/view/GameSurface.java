@@ -1,6 +1,8 @@
 // GameSurface.java
 package com.example.fishes.view;
 
+import static com.example.fishes.model.PlayerFish.PLAYER_SCALE;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
@@ -47,7 +49,7 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
     private long lastSpawnTime = 0;
     private int limitOfEnemies = 30;
 
-    private static final int[] LEVEL_EXP = {0, 400, 800, 1600, 3200, 6400, 12800, 25600, 51200, 102400, 204800, 409600};
+    private static final int[] LEVEL_EXP = {0, 400, 800, 1600, 3200, 6400};
 
     public GameSurface(Context context) {
         this(context, null);
@@ -59,7 +61,7 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
         setFocusable(true);
         SCREEN_WIDTH = context.getResources().getDisplayMetrics().widthPixels;
         SCREEN_HEIGHT = context.getResources().getDisplayMetrics().heightPixels;
-        player = new PlayerFish(context, R.drawable.player);
+        player = new PlayerFish(context, R.drawable.player, R.drawable.player2);
         soundManager = new SoundManager(context);
     }
 
@@ -146,16 +148,17 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
                     enemies.remove(i);
                     score += e.getEnemyFishType().experience;
                     soundManager.playEatSound();
-                    int lvl = getLevel(score);
-                    if (lvl > playerLevel) {
-                        playerLevel = lvl;
-                        player.grow(1.3f);
+                    int newLvl = getLevel(score);  // 0…5
+                    if (newLvl > playerLevel) {
+                        float oldScale = PLAYER_SCALE[playerLevel];
+                        float newScale = PLAYER_SCALE[newLvl];
+                        player.grow(newScale / oldScale);
+                        playerLevel = newLvl;
                         soundManager.playLevelUpSound();
                     }
                 } else {
                     // 玩家死亡，触发 GameOver
                     soundManager.playCrashSound();
-                    stopThread();
                     if (gameOverListener != null) {
                         gameOverListener.onGameOver(score);
                     }
@@ -166,7 +169,33 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void spawnEnemy() {
-        EnemyFish e = new EnemyFish(getContext(), EnemyFish.EnemyFishType.SMALL_FISH);
+        int lvl = getLevel(score);               // 当前玩家等级
+        float r = (float) Math.random();         // [0,1) 的随机数
+        EnemyFish.EnemyFishType type;
+
+        if (lvl <= 2) {                         // Lv2：10% 中鱼
+            type = (r < 0.10f) ? EnemyFish.EnemyFishType.MEDIUM_FISH
+                    : EnemyFish.EnemyFishType.SMALL_FISH;
+
+        } else if (lvl == 3) {                   // Lv3：20% 中鱼，10% 大鱼
+            if      (r < 0.10f) type = EnemyFish.EnemyFishType.LARGE_FISH;
+            else if (r < 0.30f) type = EnemyFish.EnemyFishType.MEDIUM_FISH;
+            else                type = EnemyFish.EnemyFishType.SMALL_FISH;
+
+        } else if (lvl == 4) {                   // Lv4：10% 鲨鱼，20% 大鱼
+            if      (r < 0.10f) type = EnemyFish.EnemyFishType.SHARK;
+            else if (r < 0.30f) type = EnemyFish.EnemyFishType.LARGE_FISH;
+            else if (r < 0.60f) type = EnemyFish.EnemyFishType.MEDIUM_FISH;
+            else                type = EnemyFish.EnemyFishType.SMALL_FISH;
+
+        } else {                                 // Lv5 及以上：加入 Boss
+            if      (r < 0.15f) type = EnemyFish.EnemyFishType.BOSS_FISH;
+            else if (r < 0.35f) type = EnemyFish.EnemyFishType.SHARK;
+            else if (r < 0.60f) type = EnemyFish.EnemyFishType.LARGE_FISH;
+            else if (r < 0.80f) type = EnemyFish.EnemyFishType.MEDIUM_FISH;
+            else                type = EnemyFish.EnemyFishType.SMALL_FISH;
+        }
+        EnemyFish e = new EnemyFish(getContext(), type);
         synchronized (enemyLock) {
             enemies.add(e);
         }

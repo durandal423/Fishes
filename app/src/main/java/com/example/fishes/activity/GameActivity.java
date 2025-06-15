@@ -16,7 +16,6 @@ import com.example.fishes.view.JoystickView;
 public class GameActivity extends AppCompatActivity {
     private GameSurface gameSurface;
     private JoystickView joystickView;
-
     private SoundManager soundManager;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -42,28 +41,31 @@ public class GameActivity extends AppCompatActivity {
             return true;
         });
 
+        // 1. 退出按钮调用公用方法
         findViewById(R.id.btn_quit).setOnClickListener(view -> {
-            int score = gameSurface.getScore(); // 获取当前分数
-            // 停止背景音乐
-            soundManager.stopAllSounds();
-            soundManager.stopBackgroundMusic();
-            gameSurface.stopThread();
-            // 跳转到游戏结束界面，传递分数
-            Intent intent = new Intent(GameActivity.this, GameOverActivity.class);
-            intent.putExtra("score", score);
-            startActivity(intent);
-            finish();
+            int score = gameSurface.getScore();
+            exitToGameOver(score);
         });
 
+        // 2. 把 listener 也指向同一个公用方法
         gameSurface.setGameOverListener(finalScore -> {
-            gameSurface.stopThread();
-            soundManager.stopAllSounds();
-            soundManager.stopBackgroundMusic();
-            Intent intent = new Intent(GameActivity.this, GameOverActivity.class);
-            intent.putExtra("score", finalScore);
-            startActivity(intent);
-            finish(); // 结束当前GameActivity
+            // GameSurface 触发是在子线程，切回主线程执行
+            runOnUiThread(() -> exitToGameOver(finalScore));
         });
+    }
+
+    /** 停止一切并跳转到 GameOverActivity */
+    private void exitToGameOver(int score) {
+        // 关闭线程和音效
+        gameSurface.stopThread();
+        soundManager.stopAllSounds();
+        soundManager.stopBackgroundMusic();
+
+        // 跳转并传分数
+        Intent intent = new Intent(this, GameOverActivity.class);
+        intent.putExtra("score", score);
+        startActivity(intent);
+        finish();
     }
 
     @Override

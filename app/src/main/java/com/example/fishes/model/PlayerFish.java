@@ -8,7 +8,14 @@ import com.example.fishes.view.JoystickView;
 
 public class PlayerFish extends Fish {
     private JoystickView joystick;
-
+    public static final float[] PLAYER_SCALE = {
+            1.00f,
+            302f/223f,
+            380f/223f,
+            490f/223f,
+            490f/223f,
+            720f/223f
+    };
     public void setJoystick(JoystickView joystick) {
         this.joystick = joystick;
     }
@@ -16,8 +23,8 @@ public class PlayerFish extends Fish {
     private boolean accelerating = false;
 
 
-    public PlayerFish(Context context, int resId) {
-        super(context,0.2f, resId,
+    public PlayerFish(Context context, int resId, int resId2) {
+        super(context,0.2f, resId, resId2,
                 (float) context.getResources().getDisplayMetrics().widthPixels / 2,
                 (float) context.getResources().getDisplayMetrics().heightPixels / 2);
     }
@@ -28,17 +35,19 @@ public class PlayerFish extends Fish {
 
     public void grow(float factor) {
         scaling *= factor;
-        int newWidth = (int) (bitmap.getWidth() * factor);
-        int newHeight = (int) (bitmap.getHeight() * factor);
-        bitmap = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true);
+        int newWidth = (int) (bitmap_l.getWidth() * factor);
+        int newHeight = (int) (bitmap_l.getHeight() * factor);
+        bitmap_l = Bitmap.createScaledBitmap(bitmap_l, newWidth, newHeight, true);
+        bitmap_r = Bitmap.createScaledBitmap(bitmap_r, newWidth, newHeight, true);
         radius = newWidth / 2;
+        System.out.println("Player.radius: "+radius);
     }
 
     @Override
     public void update() {
         float angle = joystick.getAngle();
         float strength = joystick.getStrength();
-        float speed = accelerating ? 10f : 5f;
+        float speed = accelerating ? 10f : 15f;
         vx = (float) (Math.cos(angle) * strength * speed);
         vy = (float) (Math.sin(angle) * strength * speed);
 
