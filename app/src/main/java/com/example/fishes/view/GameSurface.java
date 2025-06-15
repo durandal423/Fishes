@@ -174,25 +174,26 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
         EnemyFish.EnemyFishType type;
 
         if (lvl <= 2) {                         // Lv2：10% 中鱼
-            type = (r < 0.10f) ? EnemyFish.EnemyFishType.MEDIUM_FISH
+            type = (r < 0.30f) ? EnemyFish.EnemyFishType.MEDIUM_FISH
                     : EnemyFish.EnemyFishType.SMALL_FISH;
 
         } else if (lvl == 3) {                   // Lv3：20% 中鱼，10% 大鱼
-            if      (r < 0.10f) type = EnemyFish.EnemyFishType.LARGE_FISH;
-            else if (r < 0.30f) type = EnemyFish.EnemyFishType.MEDIUM_FISH;
-            else                type = EnemyFish.EnemyFishType.SMALL_FISH;
-
-        } else if (lvl == 4) {                   // Lv4：10% 鲨鱼，20% 大鱼
-            if      (r < 0.10f) type = EnemyFish.EnemyFishType.SHARK;
-            else if (r < 0.30f) type = EnemyFish.EnemyFishType.LARGE_FISH;
+            if      (r < 0.30f) type = EnemyFish.EnemyFishType.LARGE_FISH;
             else if (r < 0.60f) type = EnemyFish.EnemyFishType.MEDIUM_FISH;
             else                type = EnemyFish.EnemyFishType.SMALL_FISH;
 
+        } else if (lvl == 4) {                   // Lv4：10% 鲨鱼，20% 大鱼
+            if      (r < 0.30f) type = EnemyFish.EnemyFishType.SHARK;
+            else if (r < 0.40f) type = EnemyFish.EnemyFishType.LARGE_FISH;
+            else if (r < 0.60f) type = EnemyFish.EnemyFishType.MEDIUM_FISH;
+            else if (r < 0.80f) type = EnemyFish.EnemyFishType.BOSS_FISH;
+            else                type = EnemyFish.EnemyFishType.SMALL_FISH;
+
         } else {                                 // Lv5 及以上：加入 Boss
-            if      (r < 0.15f) type = EnemyFish.EnemyFishType.BOSS_FISH;
-            else if (r < 0.35f) type = EnemyFish.EnemyFishType.SHARK;
-            else if (r < 0.60f) type = EnemyFish.EnemyFishType.LARGE_FISH;
-            else if (r < 0.80f) type = EnemyFish.EnemyFishType.MEDIUM_FISH;
+            if (r < 0.6f) type = EnemyFish.EnemyFishType.BOSS_FISH;
+            else if (r < 0.65f) type = EnemyFish.EnemyFishType.SHARK;
+            else if (r < 0.80f) type = EnemyFish.EnemyFishType.LARGE_FISH;
+            else if (r < 0.90f) type = EnemyFish.EnemyFishType.MEDIUM_FISH;
             else                type = EnemyFish.EnemyFishType.SMALL_FISH;
         }
         EnemyFish e = new EnemyFish(getContext(), type);

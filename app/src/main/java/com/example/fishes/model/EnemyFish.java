@@ -23,8 +23,8 @@ public class EnemyFish extends Fish {
         SMALL_FISH(R.drawable.enemy_small, R.drawable.enemy_small2, 50, 0.2f, 1.5f),
         MEDIUM_FISH(R.drawable.enemy_medium, R.drawable.enemy_medium2, 80, 0.2f, 2.0f),
         LARGE_FISH (R.drawable.enemy_larger , R.drawable.enemy_larger2 , 120 , 0.2f , 1.8f),
-        SHARK      (R.drawable.enemy_shark , R.drawable.enemy_medium ,180 , 0.2f , 1.5f),
-        BOSS_FISH  (R.drawable.enemy_medium  , R.drawable.enemy_medium  ,300 , 0.2f , 1.20f);
+        SHARK      (R.drawable.enemy_shark , R.drawable.enemy_shark2 ,180 , 0.2f , 1.5f),
+        BOSS_FISH  (R.drawable.enemy_boss  , R.drawable.enemy_boss2  ,300 , 0.2f , 1.20f);
 
         public final int resId;
         public final int resId2;
