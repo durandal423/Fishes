@@ -40,12 +40,12 @@ public class MainActivity extends AppCompatActivity {
         float buttonSizeSp = pxToSp(screenWidthPx * 0.05f, scaledDensity);     // 按钮：5%
         float welcomeSizeSp = pxToSp(screenWidthPx * 0.04f, scaledDensity);    // 欢迎文本：4%
 
-        title.setTextSize(titleSizeSp);
-        welcomeText.setTextSize(welcomeSizeSp);
-        btnStart.setTextSize(buttonSizeSp);
-        btnExit.setTextSize(buttonSizeSp);
-        btnLeaderboard.setTextSize(buttonSizeSp);
-        btnLogout.setTextSize(buttonSizeSp);
+//        title.setTextSize(titleSizeSp);
+//        welcomeText.setTextSize(welcomeSizeSp);
+//        btnStart.setTextSize(buttonSizeSp);
+//        btnExit.setTextSize(buttonSizeSp);
+//        btnLeaderboard.setTextSize(buttonSizeSp);
+//        btnLogout.setTextSize(buttonSizeSp);
 
         btnStart.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, GameActivity.class);
@@ -65,10 +65,11 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences preferences = getSharedPreferences("game_prefs", MODE_PRIVATE);
             preferences.edit().clear().apply();
             
-            // 返回登录页面
+            // 返回登录页面，但不清除其他任务
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+            finish(); // 只结束当前Activity
         });
     }
 
