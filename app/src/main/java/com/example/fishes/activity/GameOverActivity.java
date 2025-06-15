@@ -27,6 +27,7 @@ public class GameOverActivity extends AppCompatActivity {
 
         dao = new LeaderboardDao(this);
         int score = getIntent().getIntExtra("score", 0);
+        String username = getIntent().getStringExtra("username");
 
         // 1. 绑定控件
         TextView tvGameOver  = findViewById(R.id.tv_game_over);
@@ -47,7 +48,12 @@ public class GameOverActivity extends AppCompatActivity {
         }
         tvRank.setText("当前排名：第" + rank + "名");
 
-        // 3. 获取屏幕参数
+        // 3. 自动填充用户名
+        if (username != null && !username.equals("游客")) {
+            etPlayer.setText(username);
+        }
+
+        // 4. 获取屏幕参数
         DisplayMetrics dm       = getResources().getDisplayMetrics();
         float screenWidthPx     = dm.widthPixels;
         float scaledDensity     = dm.scaledDensity;
@@ -58,7 +64,7 @@ public class GameOverActivity extends AppCompatActivity {
         float editWidthPercent  = 0.50f;  // 输入框宽度占屏宽 50%
         float buttonWidthPercent= 0.45f;  // 按钮宽度占屏宽 45%
 
-        // 4. 计算并设置字体大小
+        // 5. 计算并设置字体大小
         float titleSp  = screenWidthPx * titlePercent / scaledDensity;
         float labelSp  = screenWidthPx * labelPercent / scaledDensity;
 
@@ -70,7 +76,7 @@ public class GameOverActivity extends AppCompatActivity {
         btnRestart.setTextSize(labelSp);
         btnMainMenu.setTextSize(labelSp);
 
-        // 5. 计算并设置宽度（px）
+        // 6. 计算并设置宽度（px）
         int editW   = (int)(screenWidthPx * editWidthPercent);
         int btnW    = (int)(screenWidthPx * buttonWidthPercent);
 
@@ -79,7 +85,7 @@ public class GameOverActivity extends AppCompatActivity {
         setViewWidth(btnRestart,btnW);
         setViewWidth(btnMainMenu,btnW);
 
-        // 6. 按钮点击逻辑
+        // 7. 按钮点击逻辑
         btnSubmit.setOnClickListener(v -> {
             String name = etPlayer.getText().toString().trim();
             if (name.isEmpty()) {
@@ -93,12 +99,16 @@ public class GameOverActivity extends AppCompatActivity {
         });
 
         btnRestart.setOnClickListener(v -> {
-            startActivity(new Intent(this, GameActivity.class));
+            Intent intent = new Intent(this, GameActivity.class);
+            intent.putExtra("username", username);
+            startActivity(intent);
             finish();
         });
 
         btnMainMenu.setOnClickListener(v -> {
-            startActivity(new Intent(this, MainActivity.class));
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("username", username);
+            startActivity(intent);
             finish();
         });
     }

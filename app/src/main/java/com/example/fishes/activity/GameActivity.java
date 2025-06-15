@@ -17,12 +17,16 @@ public class GameActivity extends AppCompatActivity {
     private GameSurface gameSurface;
     private JoystickView joystickView;
     private SoundManager soundManager;
+    private String username;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        // 获取用户名
+        username = getIntent().getStringExtra("username");
 
         joystickView = findViewById(R.id.joystick);
         gameSurface = findViewById(R.id.game_surface);
@@ -61,9 +65,10 @@ public class GameActivity extends AppCompatActivity {
         soundManager.stopAllSounds();
         soundManager.stopBackgroundMusic();
 
-        // 跳转并传分数
+        // 跳转并传分数和用户名
         Intent intent = new Intent(this, GameOverActivity.class);
         intent.putExtra("score", score);
+        intent.putExtra("username", username);
         startActivity(intent);
         finish();
     }

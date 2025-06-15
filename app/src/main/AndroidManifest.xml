@@ -13,6 +13,21 @@
         android:theme="@style/Theme.Fishes"
         tools:targetApi="31">
         <activity
+            android:name=".activity.LoginActivity"
+            android:exported="true"
+            android:screenOrientation="landscape"
+            tools:ignore="DiscouragedApi">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            tools:ignore="DiscouragedApi" />
+        <activity
             android:name=".activity.GameActivity"
             android:exported="false"
             android:launchMode="singleTask"
@@ -26,16 +41,10 @@
             tools:ignore="DiscouragedApi" />
         <activity
             android:name=".activity.MainActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="landscape"
-            tools:ignore="DiscouragedApi">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            tools:ignore="DiscouragedApi" />
         <activity
             android:name=".activity.LeaderboardActivity"
             android:exported="false"
