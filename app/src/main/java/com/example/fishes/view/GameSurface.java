@@ -47,7 +47,7 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
     private long lastSpawnTime = 0;
     private int limitOfEnemies = 30;
 
-    private static final int[] LEVEL_EXP = {0, 100, 200, 400, 800, 1600, 3200, 6400, 12800, 25600, 51200, 102400};
+    private static final int[] LEVEL_EXP = {0, 400, 800, 1600, 3200, 6400, 12800, 25600, 51200, 102400, 204800, 409600};
 
     public GameSurface(Context context) {
         this(context, null);
@@ -149,7 +149,7 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
                     int lvl = getLevel(score);
                     if (lvl > playerLevel) {
                         playerLevel = lvl;
-                        player.grow(1.1f);
+                        player.grow(1.3f);
                         soundManager.playLevelUpSound();
                     }
                 } else {

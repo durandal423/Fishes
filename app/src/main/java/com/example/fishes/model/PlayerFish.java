@@ -38,7 +38,7 @@ public class PlayerFish extends Fish {
     public void update() {
         float angle = joystick.getAngle();
         float strength = joystick.getStrength();
-        float speed = accelerating ? 100f : 5f;
+        float speed = accelerating ? 10f : 5f;
         vx = (float) (Math.cos(angle) * strength * speed);
         vy = (float) (Math.sin(angle) * strength * speed);
 

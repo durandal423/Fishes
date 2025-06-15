@@ -17,7 +17,7 @@ public class EnemyFish extends Fish {
     }
 
     public enum EnemyFishType {
-        SMALL_FISH(R.drawable.enemy_small, 50, 0.2f, 1.5f);
+        SMALL_FISH(R.drawable.enemy_small, 10, 0.2f, 1.5f);
 
         public final int resId;
         public final int experience;

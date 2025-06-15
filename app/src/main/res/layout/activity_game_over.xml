@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_game_over"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#222222"
@@ -7,59 +8,59 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/text_game_over"
-        android:text="游戏结束"
-        android:textSize="36sp"
-        android:textColor="#FF0000"
+        android:id="@+id/tv_game_over"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:text="游戏结束"
+        android:textColor="#FF0000"
+        android:textSize="20sp" />   <!-- 默认值，会被代码覆盖 -->
 
     <TextView
-        android:id="@+id/txt_score"
-        android:text="得分: 0"
-        android:textSize="24sp"
-        android:textColor="#FFFFFF"
+        android:id="@+id/tv_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:text="得分: 0"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/txt_rank"
-        android:text="当前排名："
-        android:textSize="24sp"
-        android:textColor="#FFFFFF"
-        android:layout_marginBottom="20dp"
+        android:id="@+id/tv_rank"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <EditText
-        android:id="@+id/edit_player_name"
-        android:hint="@string/enter_name"
-        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:textColor="#000000"
-        android:background="#FFFFFF"/>
+        android:text="当前排名："
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/et_player_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="#FFFFFF"
+        android:hint="@string/enter_name"
+        android:textColor="#000000" />
 
     <Button
         android:id="@+id/btn_submit_score"
-        android:text="@string/submit"
-        android:layout_width="200dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="20dp"
+        android:text="@string/submit" />
 
     <Button
         android:id="@+id/btn_restart"
-        android:text="重玩"
-        android:layout_width="200dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="20dp"
+        android:text="重玩" />
 
     <Button
         android:id="@+id/btn_main_menu"
-        android:text="返回主菜单"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="返回主菜单" />
 
 </LinearLayout>
